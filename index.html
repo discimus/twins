@@ -112,7 +112,7 @@
                 resultsFormated() { return [...Array(this.quantity).keys()].map(t => `${t+1}th ends in ${this.getTimeInfo(new Date(this.now+(this.multiplier*20*60*1000*(t+1))/this.quantity))}`) }
             },
             methods: {
-                getTimeInfo(time) { return `${time.getHours()}:${String(time.getMinutes()).padStart(2, "0")}:${time.getSeconds()}` },
+                getTimeInfo(time) { return `${time.getHours()}:${String(time.getMinutes()).padStart(2, "0")}:${String(time.getSeconds()).padStart(2, "0")}` },
                 getDateInfo(time) { return `${String(time.getDay()).padStart(2, "0")}/${String(time.getMonth()+1).padStart(2, "0")}/${time.getFullYear()}` },
                 increaseParticipants() { if (this.quantity < 5) this.quantity++ },
                 decreaseParticipants() { if (this.quantity > 1) this.quantity-- },
