@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twins</title>
+    <style>
+        .container {
+            width: auto;
+            max-width: 600px;
+    
+            margin: auto;
+        }
+        .content {
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+        }
+        .current {
+            display: flex;
+            flex-flow: column nowrap;
+        }
+        .result {
+            display: flex;
+            flex-flow: column nowrap;
+        }
+        .number-lg {
+            font-size: 3rem;
+            flex-grow: 1;
+        }
+        .text-lg {
+            font-size: 2rem;
+        }
+        .text-md {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <div id="app">
+        <div class="container">
+            <div class="participants">
+                <span class="text-lg">divide by ...</span>
+                <div class="content">
+                    <span v-html="quantity" class="number-lg"></span>
+                    <button @click="decreaseParticipants">decrease</button>
+                    <button @click="increaseParticipants">increase</button>
+                </div>
+            </div>
+            <hr>
+            <div class="current">
+                <span class="text-lg">now</span>
+                <span v-html="currentTimeInfo" class="number-lg"></span>
+            </div>
+            <hr>
+            <div class="times">
+                <span class="text-lg">add 20 mins</span>
+                <div class="content">
+                    <span v-html="getAmount" class="number-lg"></span>
+                    <button @click="decreaseMultiplier">decrease</button>
+                    <button @click="increaseMultiplier">increase</button>
+                </div>
+            </div>
+            <hr>
+            <div class="result">
+                <div v-for="(result, index) in resultsFormated">
+                    <span v-html="result" class="text-md"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        const appConfig = {
+            data() {
+                return { quantity: 2, now: 0, multiplier: 1 }
+            },
+            created() {
+                this.updateCurrentTimeInfo()
+                setInterval(this.updateCurrentTimeInfo, 1000)
+            },
+            computed: {
+                currentTimeInfo() { return this.getTimeInfo(new Date(this.now)) },
+                getAmount() {
+                    const total = this.multiplier * 20
+                    return `${total} (${Math.floor(total / 60)} h)`
+                },
+                resultsFormated() { return [...Array(this.quantity).keys()].map(t => `${t+1}th ends in ${this.getTimeInfo(new Date(this.now+(this.multiplier*20*60*1000*(t+1))/this.quantity))}`) }
+            },
+            methods: {
+                getTimeInfo(time) { return `${time.getHours()}:${String(time.getMinutes()).padStart(2, "0")}:${time.getSeconds()}` },
+                increaseParticipants() { if (this.quantity < 5) this.quantity++ },
+                decreaseParticipants() { if (this.quantity > 1) this.quantity-- },
+                updateCurrentTimeInfo() { this.now = Date.now() },
+                increaseMultiplier() { if (this.multiplier < 19) this.multiplier++ },
+                decreaseMultiplier() { if (this.multiplier > 1) this.multiplier-- },
+            }
+        }
+
+        createApp(appConfig).mount('#app')
+    </script>
+</body>
+
+</html>
