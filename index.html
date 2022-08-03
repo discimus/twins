@@ -13,6 +13,15 @@
     
             margin: auto;
         }
+        .participants {
+            display: flex;
+            flex-flow: column nowrap;
+        }
+        .space-between {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
         .content {
             display: flex;
             align-items: center;
@@ -37,6 +46,9 @@
         .text-md {
             font-size: 1.5rem;
         }
+        .text-sm {
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -46,7 +58,10 @@
     <div id="app">
         <div class="container">
             <div class="participants">
-                <span class="text-lg">divide by ...</span>
+                <div class="space-between">
+                    <span class="text-lg">divide by ...</span>
+                    <span v-html="currentDateInfo" class="text-sm"></span>
+                </div>
                 <div class="content">
                     <span v-html="quantity" class="number-lg"></span>
                     <button @click="decreaseParticipants">decrease</button>
@@ -89,6 +104,7 @@
             },
             computed: {
                 currentTimeInfo() { return this.getTimeInfo(new Date(this.now)) },
+                currentDateInfo() { return this.getDateInfo(new Date(this.now)) },
                 getAmount() {
                     const total = this.multiplier * 20
                     return `${total} (${Math.floor(total / 60)} h)`
@@ -97,6 +113,7 @@
             },
             methods: {
                 getTimeInfo(time) { return `${time.getHours()}:${String(time.getMinutes()).padStart(2, "0")}:${time.getSeconds()}` },
+                getDateInfo(time) { return `${String(time.getDay()).padStart(2, "0")}/${String(time.getMonth()+1).padStart(2, "0")}/${time.getFullYear()}` },
                 increaseParticipants() { if (this.quantity < 5) this.quantity++ },
                 decreaseParticipants() { if (this.quantity > 1) this.quantity-- },
                 updateCurrentTimeInfo() { this.now = Date.now() },
