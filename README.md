@@ -10,7 +10,7 @@ Hello there, do you have youg relatives who frequently discuss about video-game 
 So if that is commom to you, just click at the link at right and follow the instructions bellow.
 
 # How to use it
-It's simple, just add the quantity of participants in the first row,
+It's simple, just access the application at https://discimus.github.io/twins/ so  add the quantity of participants in the first row,
 
 Then select a time (20 multiple) to be divided between the participants, so you'll see the time/instant when each time will end, so the participants (each) will have the same time to use the video-game or computer. 
 
