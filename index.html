@@ -113,7 +113,7 @@
             },
             methods: {
                 getTimeInfo(time) { return `${String(time.getHours()).padStart(2, "0")}:${String(time.getMinutes()).padStart(2, "0")}:${String(time.getSeconds()).padStart(2, "0")}` },
-                getDateInfo(time) { return `${String(time.getDay()).padStart(2, "0")}/${String(time.getMonth()+1).padStart(2, "0")}/${time.getFullYear()}` },
+                getDateInfo(time) { return `${String(time.getDate()).padStart(2, "0")}/${String(time.getMonth()+1).padStart(2, "0")}/${time.getFullYear()}` },
                 increaseParticipants() { if (this.quantity < 5) this.quantity++ },
                 decreaseParticipants() { if (this.quantity > 1) this.quantity-- },
                 updateCurrentTimeInfo() { this.now = Date.now() },
