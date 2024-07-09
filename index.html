@@ -108,16 +108,19 @@
 
                 copyToClipboard() {
                     try {
-                        var content = `[Now is ${this.getTimeInfo(new Date(this.now))}] : ${JSON.stringify(this.results).replaceAll('\"', '').replaceAll('\,', '\, ')}`
+                        const now = `Now is ${this.getTimeInfo(new Date(this.now))}`
+                        const total = `\nThere are ${this.getAmount} mins divided by ${this.quantity}`
+                        const values = this.results.map(t => `\n${t}`)
 
-                        navigator.clipboard.writeText(content)
+                        navigator.clipboard.writeText(now+total+values)
 
                         document.body.style.backgroundColor = '#cce8d5'
 
                         setTimeout(() => {
                             document.body.style.backgroundColor = null
                         }, 300)
-                    } catch {
+                    } catch (e) {
+                        console.log(e)
                         document.body.style.backgroundColor = '#edadad'
 
                         setTimeout(() => {
