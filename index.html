@@ -20,14 +20,20 @@
                     <span class="text-xl">Divide by ... <b v-html="quantity"></b></span>
                     <span v-html="currentDateInfo" class="text-xl"></span>
                 </div>
-                <div class="flex gap-3 py-1">
-                    <button @click="decreaseParticipants"
-                        class="shadow-md active:shadow-none rounded-full bg-stone-200 px-3 py-1 max-h-9">
-                        <span class="font-semibold text-lg text-neutral-600">Decrease</span>
-                    </button>
-                    <button @click="increaseParticipants"
-                        class="shadow-md active:shadow-none rounded-full bg-stone-200 px-3 py-1 max-h-9">
-                        <span class="font-semibold text-lg text-neutral-600">Increase</span>
+                <div class="flex justify-between py-1">
+                    <div class="flex gap-3">
+                        <button @click="decreaseParticipants"
+                            class="shadow-md active:shadow-none rounded-full bg-stone-200 px-3 py-1 max-h-9">
+                            <span class="font-semibold text-lg text-neutral-600">Decrease</span>
+                        </button>
+                        <button @click="increaseParticipants"
+                            class="shadow-md active:shadow-none rounded-full bg-stone-200 px-3 py-1 max-h-9">
+                            <span class="font-semibold text-lg text-neutral-600">Increase</span>
+                        </button>
+                    </div>
+                    <button @click="copyToClipboard" id="btn-copy-clipboard"
+                        class="shadow-md active:shadow-none rounded-full bg-sky-400 px-3 py-1 max-h-9">
+                        <span class="font-semibold text-lg text-white">Copy</span>
                     </button>
                 </div>
             </div>
@@ -88,7 +94,8 @@
                     const total = this.multiplier * 10
                     return `(${Math.floor(total / 60)} h)`
                 },
-                resultsFormated() { return [...Array(this.quantity).keys()].map(t => `${t + 1}th ends in <b>${this.getTimeInfo(new Date(this.now + (this.multiplier * 10 * 60 * 1000 * (t + 1)) / this.quantity))}</b>`) }
+                resultsFormated() { return [...Array(this.quantity).keys()].map(t => `${t + 1}th ends at <b>${this.getTimeInfo(new Date(this.now + (this.multiplier * 10 * 60 * 1000 * (t + 1)) / this.quantity))}</b>`) },
+                results() { return [...Array(this.quantity).keys()].map(t => `${t + 1}th ends at ${this.getTimeInfo(new Date(this.now + (this.multiplier * 10 * 60 * 1000 * (t + 1)) / this.quantity))}`) },
             },
             methods: {
                 getTimeInfo(time) { return `${String(time.getHours()).padStart(2, "0")}:${String(time.getMinutes()).padStart(2, "0")}:${String(time.getSeconds()).padStart(2, "0")}` },
@@ -98,6 +105,26 @@
                 updateCurrentTimeInfo() { this.now = Date.now() },
                 increaseMultiplier() { if (this.multiplier < 19) this.multiplier++ },
                 decreaseMultiplier() { if (this.multiplier > 1) this.multiplier-- },
+
+                copyToClipboard() {
+                    try {
+                        var content = `[Now is ${this.getTimeInfo(new Date(this.now))}] : ${JSON.stringify(this.results).replaceAll('\"', '').replaceAll('\,', '\, ')}`
+
+                        navigator.clipboard.writeText(content)
+
+                        document.body.style.backgroundColor = '#cce8d5'
+
+                        setTimeout(() => {
+                            document.body.style.backgroundColor = null
+                        }, 300)
+                    } catch {
+                        document.body.style.backgroundColor = '#edadad'
+
+                        setTimeout(() => {
+                            document.body.style.backgroundColor = null
+                        }, 300)
+                    }
+                }
             }
         }
 
